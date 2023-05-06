@@ -1,0 +1,22 @@
+name: 自动任务
+
+on:
+  schedule:
+    - cron: "30 21 * * *"
+  workflow_dispatch:
+
+env:
+  COOKIE: ${{ secrets.COOKIE }}
+  WEBHOOK_FEISHU: ${{ secrets.WEBHOOK_FEISHU }}
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: |
+          echo "ACTIONS_ALLOW_UNSECURE_COMMANDS=true" >> $GITHUB_ENV
+      - run: |
+          echo "GOOGLE_CHROME_PATH=$(which google-chrome)" >> $GITHUB_ENV
+      - run: node index.js
